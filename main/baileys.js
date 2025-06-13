@@ -24,6 +24,7 @@ export async function start(io) {
 
       if (connection === 'open') {
         console.log('✅ WhatsApp Connected!')
+        io.emit('connected', true) // kirim event ke frontend
       } else if (connection === 'close') {
         const reason = new Boom(lastDisconnect?.error)?.output?.statusCode
         console.log('❌ Connection closed:', reason)
