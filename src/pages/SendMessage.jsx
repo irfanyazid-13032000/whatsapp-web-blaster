@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send } from 'lucide-react';
 import '../styles/SendMessage.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function SendMessage() {
   const [message, setMessage] = useState('');
   const [repeat, setRepeat] = useState(1);
   const textareaRef = useRef(null);
+  const navigate = useNavigate();
+
 
   // Resize textarea saat isi berubah
   useEffect(() => {
@@ -17,7 +21,7 @@ export default function SendMessage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Pesan "${message}" akan dikirim ${repeat} kali!`);
+    navigate('/preview', { state: { message, repeat } });
   };
 
   return (
