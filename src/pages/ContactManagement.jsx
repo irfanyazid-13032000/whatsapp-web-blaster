@@ -19,8 +19,10 @@ export default function ContactManagement() {
   }, []);
 
   useEffect(() => {
+     if (isInitialized) {
     window.api.saveContacts(contacts);
-  }, [contacts]);
+  }
+  }, [contacts,isInitialized]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
