@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './../styles/ContactManagement.css';
-import { Search,Plus,Pencil,SquarePen,Trash2 } from 'lucide-react';
+import { Search, Plus, Pencil, SquarePen, Trash2 } from 'lucide-react';
 
 
 export default function ContactManagement() {
-  const [contacts, setContacts] = useState([
-    { id: '1', name: 'John Doe', number: '+123456789' },
-    { id: '2', name: 'Jane Smith', number: '+987654321' },
-    { id: '3', name: 'Michael Johnson', number: '+1122334455' },
-  ]);
-
+  const [isInitialized, setIsInitialized] = useState(false); // 🆕 Tambahkan flag
+  const [contacts, setContacts] = useState([]);
   const [formData, setFormData] = useState({ name: '', number: '' });
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    window.api.getContacts().then((data) => {
+      setContacts(data);
+       setIsInitialized(true); // 🟢 Baru aktifkan update setelah load awal selesai
+    });
+  }, []);
+
+  useEffect(() => {
+    window.api.saveContacts(contacts);
+  }, [contacts]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,13 +32,11 @@ export default function ContactManagement() {
 
   const handleAddContact = (e) => {
     e.preventDefault();
-    if (formData.name.trim() === '' || formData.number.trim() === '') return;
+    if (!formData.name.trim() || !formData.number.trim()) return;
 
     if (isEditing) {
       setContacts((prev) =>
-        prev.map((contact) =>
-          contact.id === editId ? { ...contact, ...formData } : contact
-        )
+        prev.map((c) => (c.id === editId ? { ...c, ...formData } : c))
       );
       setIsEditing(false);
       setEditId(null);
@@ -44,7 +49,7 @@ export default function ContactManagement() {
   };
 
   const handleDelete = (id) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
+    setContacts(contacts.filter((c) => c.id !== id));
     if (isEditing && id === editId) {
       setIsEditing(false);
       setEditId(null);
@@ -59,16 +64,16 @@ export default function ContactManagement() {
   };
 
   const filteredContacts = contacts.filter(
-    (contact) =>
-      contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      contact.number.includes(searchTerm)
+    (c) =>
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.number.includes(searchTerm)
   );
 
   return (
     <div className="contact-management">
       <h1>Daftar Kontak</h1>
-
-      {/* Form Tambah/Edit */}
+      {/* Form + Search + Table sama seperti sebelumnya */}
+       {/* Form Tambah/Edit */}
       <form className="contact-form" onSubmit={handleAddContact}>
         <input
           type="text"

@@ -1,7 +1,10 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow,ipcMain } from 'electron'
 import { startSocketServer } from './server.js'
+
 import path from 'path'
 import { fileURLToPath } from 'url'
+
+import * as contactStore from './contactStore.js';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -30,3 +33,12 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
+
+
+ipcMain.handle('get-contacts', () => {
+  return contactStore.getContacts();
+});
+
+ipcMain.handle('save-contacts', (_, contacts) => {
+  contactStore.saveContacts(contacts);
+});
