@@ -1,20 +1,25 @@
-import React from 'react'
-import ContactList from '../components/ContactList'
+import { Link, Outlet } from 'react-router-dom';
+import '../styles/Topbar.css';
 
-const dummyContacts = [
-  { name: 'Andi', phone: '+628123456789' },
-  { name: 'Budi', phone: '+628987654321' },
-  { name: 'Citra', phone: '+628111222333' },
-]
-
-function Home() {
+export default function Home() {
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1>Selamat Datang</h1>
-      <p>Anda sudah login</p>
-      <ContactList contacts={dummyContacts} />
-    </div>
-  )
-}
+    <div className="app-container">
+      {/* Topbar */}
+      <div className="topbar">
+        <Link to="/contact" className="menu-button">
+          Contact Management
+        </Link>
+        <Link to="/send-message" className="menu-button">
+          Kirim Pesan
+        </Link>
+      </div>
 
-export default Home
+      {/* Container Konten */}
+      <div className="content-container">
+        <div className="content">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+}

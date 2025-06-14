@@ -1,0 +1,50 @@
+/* src/renderer/src/styles/Topbar.css */
+*{
+  background-color: #18191a;
+}
+/* Layout Utama */
+.app-container {
+  height: 100vh;
+  background-color: #18191a; /* Latar belakang hitam */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Pusatkan seluruh konten */
+ 
+}
+
+/* Container Konten */
+.content-container {
+  width: 1000px;
+  min-height: 10vh;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Topbar */
+.topbar {
+  background-color:#18191a; /* Latar belakang hitam */
+  width: 100%;
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Tombol Menu */
+.menu-button {
+  padding: 8px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  background-color: #2563eb; /* Warna biru */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.menu-button:hover {
+  background-color: #1d4ed8; /* Warna biru lebih gelap saat hover */
+}
+
