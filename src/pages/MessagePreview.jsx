@@ -65,9 +65,9 @@ export default function MessagePreview() {
        {/* Tambahkan ini untuk menampilkan pesan */}
       {message && (
         <div className="message-preview-box">
-          <h3 style={{ backgroundColor:'#242526' }}>Pesan yang akan dikirim:</h3>
+          <h3>Pesan yang akan dikirim:</h3>
           <div className="message-content">{message}</div>
-          <div className="repeat-info" style={{ backgroundColor:'#242526' }}>Akan dikirim {repeat} kali ke {selectedContacts.length} orang</div>
+          <div className="repeat-info">Akan dikirim {repeat} kali ke {selectedContacts.length} orang</div>
         </div>
       )}
 
@@ -80,7 +80,7 @@ export default function MessagePreview() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="form-input search-input"
         />
-        <button className="action-button search-button">
+        <button className="act-button search-button">
           <Search size={20} style={{ backgroundColor:'#2374e1' }} />
         </button>
       </div>

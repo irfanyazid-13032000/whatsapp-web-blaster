@@ -1,7 +1,11 @@
 /* src/styles/ContactManagement.css */
 
+:host {
+  all: initial; /* Reset semua style */
+}
+
 .contact-management {
-  max-width: 1000px;
+  max-width: 100vh;
   margin: 0 auto;
   padding: 20px;
   color: #e4e6eb;
@@ -46,16 +50,17 @@
   background-color: #3a3b3c; 
 }
 
-.action-button {
+.act-button {
   background-color: #3a3b3c;
   color: #e4e6eb;
   border: none;
-  padding: 6px 12px;
+  padding: 10px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s;
   margin-right: 8px;
+  display: inline;
 }
 
 .action-button:hover {

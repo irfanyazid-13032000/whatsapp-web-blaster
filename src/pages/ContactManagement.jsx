@@ -93,7 +93,7 @@ export default function ContactManagement() {
           onChange={handleInputChange}
           className="form-input"
         />
-        <button type="submit" className={`action-button ${isEditing ? 'edit-button' : 'add-button'}`}>
+        <button type="submit" className={`act-button ${isEditing ? 'edit-button' : 'add-button'}`}>
           {isEditing ? <Pencil size={20} style={{ backgroundColor:'#2374e1' }} /> : <Plus size={20} style={{ backgroundColor:'#2374e1' }} />}
         </button>
       </form>
@@ -107,7 +107,7 @@ export default function ContactManagement() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="form-input search-input"
         />
-        <button className="action-button search-button">
+        <button className="act-button search-button">
            <Search size={20} style={{ backgroundColor:'#2374e1' }} />
         </button>
       </div>
@@ -130,13 +130,13 @@ export default function ContactManagement() {
               <td style={{ textAlign:'center' }}>{contact.number}</td>
               <td style={{ textAlign:'center' }}>
                 <button
-                  className="action-button edit-button"
+                  className="act-button edit-button"
                   onClick={() => handleEditClick(contact)}
                 >
                   <SquarePen size={20} style={{ backgroundColor:'#2374e1' }} />
                 </button>
                 <button
-                  className="action-button delete-button"
+                  className="act-button delete-button"
                   onClick={() => handleDelete(contact.id)}
                 >
                   <Trash2 size={20} style={{ backgroundColor:'#f02849' }}/>
