@@ -3,10 +3,13 @@ import './../styles/ContactManagement.css';
 import './../styles/MessagePreview.css';
 import { Search, Send } from 'lucide-react';
 import { useLocation } from 'react-router-dom'; // Tambahkan ini
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function MessagePreview() {
   const location = useLocation(); // Gunakan useLocation
+  const navigate = useNavigate(); // Add this
   const [contacts, setContacts] = useState([]);
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -45,10 +48,15 @@ export default function MessagePreview() {
   );
 };
 
-  const handleSend = () => {
+ const handleSend = () => {
     const targets = contacts.filter((c) => selectedContacts.includes(c.id));
-    alert(`Akan mengirim pesan ke ${targets.length} kontak:\n` + targets.map(c => `${c.name} (${c.number})`).join('\n'));
-    // TODO: Kirim ke backend / proses pengiriman pesan di sini
+    navigate('/send-progress', {
+      state: {
+        message,
+        repeat,
+        selectedContacts: targets
+      }
+    });
   };
 
   return (
@@ -107,7 +115,7 @@ export default function MessagePreview() {
                 <input
                   type="checkbox"
                   checked={selectedContacts.includes(c.id)}
-                  onChange={() => {
+                  onChange={(e) => {
                      e.stopPropagation()// Menghentikan event bubbling
                     handleSelect(c.id)
                   }

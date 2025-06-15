@@ -1,0 +1,80 @@
+.send-progress-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #242526;
+  border-radius: 10px;
+  color: white;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.progress-info {
+  margin: 30px 0;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.progress-bar-container {
+  height: 20px;
+  background-color: #3e4042;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #2374e1;
+  transition: width 0.3s ease;
+}
+
+.current-status {
+  margin-top: 15px;
+  text-align: center;
+  font-style: italic;
+  color: #b0b3b8;
+}
+
+.action-button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #2374e1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.action-button:hover {
+  background-color: #1a5cb0;
+}
+
+.message-log {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #3a3b3c;
+  border-radius: 8px;
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+.message-log h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.message-log ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.message-log li {
+  padding: 5px 0;
+  border-bottom: 1px solid #4e4f50;
+}
