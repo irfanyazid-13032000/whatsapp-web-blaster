@@ -1,5 +1,7 @@
 import { app, BrowserWindow,ipcMain } from 'electron'
 import { startSocketServer } from './server.js'
+import { start, getSock } from './baileys.js' // ⬅️ pastikan path sesuai
+
 
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -42,3 +44,18 @@ ipcMain.handle('get-contacts', () => {
 ipcMain.handle('save-contacts', (_, contacts) => {
   contactStore.saveContacts(contacts);
 });
+
+ipcMain.handle('send-message', async (event, { number, message }) => {
+  const sock = getSock()
+  if (!sock) {
+    console.log('❌ Socket belum siap')
+    return 'Socket not ready'
+  }
+  try {
+    await sock.sendMessage(number, { text: message })
+    return 'Message sent'
+  } catch (err) {
+    console.error('❌ Error sending message:', err)
+    return 'Error sending message'
+  }
+})

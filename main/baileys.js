@@ -12,6 +12,7 @@ import useSockStore from '../src/lib/sockStore.js' // ⬅️ sesuaikan path
 
 let sock = null;
 
+
 export async function start(io) {
   try {
     const { state, saveState } = await useSingleFileAuthState('./auth_info.json')
@@ -50,6 +51,10 @@ export async function start(io) {
   } catch (err) {
     console.error('❌ Baileys Error:', err)
   }
+}
+
+export function getSock() {
+  return sock
 }
 
 

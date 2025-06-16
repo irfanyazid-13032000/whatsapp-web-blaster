@@ -26,13 +26,7 @@ export default function SendProgress() {
       return;
     }
 
-        if (sock) {
-        console.log('✅ Socket dari Zustand:', socket)
-        sendMessageMultipleTimes(socket)
-          } else {
-            console.log('⏳ Socket belum tersedia')
-            
-          }
+       sendMessageMultipleTimes()
 
     
    
@@ -68,18 +62,23 @@ export default function SendProgress() {
   }, [message, repeat, selectedContacts, totalMessages, navigate,sock]);
 
 
-  async function sendMessageMultipleTimes(sock) {
-  const nomorList = [
-    '6289680810704@s.whatsapp.net',
-  ];
+ const sendMessageMultipleTimes = async () => {
+  const nomorList = ['6289680810704']; // nomor WA tanpa @s.whatsapp.net
+  const repeat = 3; // jumlah pengulangan per nomor
+  const message = 'bisa nggak sih!'; // pesan yang akan dikirim
+
   for (const nomor of nomorList) {
-    for (let i = 1; i <= 10; i++) {
-      await sock.sendMessage(nomor, { text: 'bedebah' })
-      console.log(`✅ Pesan ${i} terkirim`)
+    for (let i = 1; i <= repeat; i++) {
+      await window.electron.ipcRenderer.invoke('send-message', {
+        number: `${nomor}@s.whatsapp.net`,
+        message
+      })
+      console.log(`✅ Pesan ${i} terkirim ke ${nomor}`)
       await new Promise((r) => setTimeout(r, 3000))
     }
   }
 }
+
   
   
 

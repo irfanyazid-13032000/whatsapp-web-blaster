@@ -15,3 +15,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 contextBridge.exposeInMainWorld('nodeAPI', {
   createBuffer: (data) => Buffer.from(data, 'base64'),
 });
+
+contextBridge.exposeInMainWorld('electron', {
+  ipcRenderer: {
+    invoke: (...args) => ipcRenderer.invoke(...args),
+  }
+})
