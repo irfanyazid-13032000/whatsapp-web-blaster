@@ -3,7 +3,9 @@ import qrcode from 'qrcode-terminal' // ⬅️ ini WAJIB buat munculin QR kotakn
 
 import useSingleFileAuthState from './useSingleFileAuthState.js'
 import { Boom } from '@hapi/boom'
-import waEvents  from '../src/lib/waEvents.js' // Import waEvents untuk event handling
+// import waEvents  from '../src/lib/waEvents.js' // Import waEvents untuk event handling
+import useSockStore from '../src/lib/sockStore.js' // ⬅️ sesuaikan path
+
 
 
 // baileys.js
@@ -31,7 +33,9 @@ export async function start(io) {
       if (connection === 'open') {
         console.log('✅ WhatsApp Connected!')
         io.emit('connected', true) // kirim event ke frontend
-        waEvents.emit('socket-ready', sock)
+        // waEvents.emit('socket-ready', sock)
+        useSockStore.getState().setSock(sock) // ⬅️ set di Zustand
+
 
       } else if (connection === 'close') {
         const reason = new Boom(lastDisconnect?.error)?.output?.statusCode

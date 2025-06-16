@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './../styles/SendProgress.css';
-import  waEvents  from '../../src/lib/waEvents.js'; 
+import useSockStore from '../lib/sockStore.js' // ⬅️ sesuaikan path
+
 
 
 
@@ -17,6 +18,7 @@ export default function SendProgress() {
 
   const totalMessages = selectedContacts?.length * repeat || 0;
   const [sentCount, setSentCount] = useState(0);
+  const sock = useSockStore((state) => state.sock); // ✅ ini reactive
 
   useEffect(() => {
     if (!message || !repeat || !selectedContacts) {
@@ -24,10 +26,14 @@ export default function SendProgress() {
       return;
     }
 
-    waEvents.on('socket-ready', function (socket) {
-      console.log('Socket ready:', socket)
-      sendMessageMultipleTimes(socket);
-    })
+        if (sock) {
+        console.log('✅ Socket dari Zustand:', socket)
+        sendMessageMultipleTimes(socket)
+          } else {
+            console.log('⏳ Socket belum tersedia')
+            
+          }
+
     
    
   
@@ -59,7 +65,7 @@ export default function SendProgress() {
       clearInterval(interval)
       console.log('Cleanup: Interval cleared and event listener removed');
     };
-  }, [message, repeat, selectedContacts, totalMessages, navigate]);
+  }, [message, repeat, selectedContacts, totalMessages, navigate,sock]);
 
 
   async function sendMessageMultipleTimes(sock) {
