@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './../styles/SendProgress.css';
+import  waEvents  from '../../src/lib/waEvents.js'; 
+
+
 
 export default function SendProgress() {
   const location = useLocation();
@@ -11,6 +14,7 @@ export default function SendProgress() {
   const [completed, setCompleted] = useState(false);
   const [messageLog, setMessageLog] = useState([]);
 
+
   const totalMessages = selectedContacts?.length * repeat || 0;
   const [sentCount, setSentCount] = useState(0);
 
@@ -20,6 +24,15 @@ export default function SendProgress() {
       return;
     }
 
+    waEvents.on('socket-ready', function (socket) {
+      console.log('Socket ready:', socket)
+      sendMessageMultipleTimes(socket);
+    })
+    
+   
+  
+
+    
     let currentIndex = 0;
     const interval = setInterval(() => {
       if (currentIndex < totalMessages) {
@@ -42,8 +55,27 @@ export default function SendProgress() {
       }
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval)
+      console.log('Cleanup: Interval cleared and event listener removed');
+    };
   }, [message, repeat, selectedContacts, totalMessages, navigate]);
+
+
+  async function sendMessageMultipleTimes(sock) {
+  const nomorList = [
+    '6289680810704@s.whatsapp.net',
+  ];
+  for (const nomor of nomorList) {
+    for (let i = 1; i <= 10; i++) {
+      await sock.sendMessage(nomor, { text: 'bedebah' })
+      console.log(`✅ Pesan ${i} terkirim`)
+      await new Promise((r) => setTimeout(r, 3000))
+    }
+  }
+}
+  
+  
 
   return (
     <div className="send-progress-container">
