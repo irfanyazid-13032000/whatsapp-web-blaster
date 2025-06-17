@@ -26,13 +26,8 @@ export default function SendProgress() {
       return;
     }
 
-       sendMessageMultipleTimes()
+    sendMessageMultipleTimes()
 
-    
-   
-  
-
-    
     let currentIndex = 0;
     const interval = setInterval(() => {
       if (currentIndex < totalMessages) {
@@ -62,22 +57,27 @@ export default function SendProgress() {
   }, [message, repeat, selectedContacts, totalMessages, navigate,sock]);
 
 
- const sendMessageMultipleTimes = async () => {
-  const nomorList = ['6289680810704']; // nomor WA tanpa @s.whatsapp.net
-  const repeat = 3; // jumlah pengulangan per nomor
-  const message = 'bisa nggak sih!'; // pesan yang akan dikirim
-
-  for (const nomor of nomorList) {
-    for (let i = 1; i <= repeat; i++) {
-      await window.electron.ipcRenderer.invoke('send-message', {
-        number: `${nomor}@s.whatsapp.net`,
-        message
-      })
-      console.log(`✅ Pesan ${i} terkirim ke ${nomor}`)
-      await new Promise((r) => setTimeout(r, 3000))
+const sendMessageMultipleTimes = async () => {
+  try {
+    console.log("Selected Contacts:", selectedContacts); // More descriptive log
+    
+    for (const contact of selectedContacts) {
+      console.log(`Processing contact: ${contact.number}`); // Log each contact
+      
+      for (let i = 1; i <= repeat; i++) {
+        await window.electron.ipcRenderer.invoke('send-message', {
+          number: `${contact.number}@s.whatsapp.net`,
+          message
+        });
+        console.log(`✅ Pesan ${i} terkirim ke ${contact.number}`);
+        await new Promise((r) => setTimeout(r, 3000));
+      }
     }
+  } catch (error) {
+    console.error("Error in sendMessageMultipleTimes:", error);
   }
-}
+};
+
 
   
   
