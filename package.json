@@ -6,16 +6,35 @@
   "main": "main/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "electron": "electron .",
-    "start": "concurrently \"npm run dev\" \"npm run electron\""
+    "start": "concurrently \"npm run dev\" \"npm run electron\"",
+    "postinstall": "electron-builder install-app-deps",
+    "build:electron": "electron-builder",
+    "build": "vite build && electron-builder"
   },
+  "build": {
+  "appId": "com.whatsapp.login.app",
+  "productName": "WhatsAppLoginApp",
+  "directories": {
+    "output": "dist"
+  },
+ "files": [
+  "dist/**",
+  "main/**",
+  "preload/**",
+  "src/**",  
+  "node_modules/**",
+  "package.json"
+],
+  "win": {
+    "target": "nsis"
+  }
+},
   "dependencies": {
     "@adiwajshing/baileys": "^5.0.0",
     "@whiskeysockets/baileys": "^6.6.0",
-    "electron": "^36.4.0",
     "electron-store": "^10.0.1",
     "lucide-react": "^0.515.0",
     "qrcode": "^1.5.4",
@@ -35,10 +54,13 @@
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
     "concurrently": "^9.1.2",
+    "electron-builder": "^26.0.12",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "electron": "^36.4.0"
   }
 }
+
