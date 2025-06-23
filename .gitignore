@@ -23,3 +23,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+node-v22.16.0-x64.msi
+start.bat
+auth_info.json

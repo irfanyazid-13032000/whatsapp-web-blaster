@@ -20,7 +20,16 @@ function createWindow() {
     },
   })
 
+  if (app.isPackaged) {
+  const indexPath = path.join(__dirname, '../dist/index.html')
+  if (fs.existsSync(indexPath)) {
+    win.loadURL(pathToFileURL(indexPath).toString())
+  } else {
+    console.error('❌ index.html not found:', indexPath)
+  }
+} else {
   win.loadURL('http://localhost:5173')
+}
 }
 
 app.whenReady().then(() => {

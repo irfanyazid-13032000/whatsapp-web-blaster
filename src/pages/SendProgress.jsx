@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './../styles/SendProgress.css';
 import useSockStore from '../lib/sockStore.js' // ⬅️ sesuaikan path
@@ -14,69 +14,60 @@ export default function SendProgress() {
   const [currentStatus, setCurrentStatus] = useState('');
   const [completed, setCompleted] = useState(false);
   const [messageLog, setMessageLog] = useState([]);
+  const hasStartedRef = useRef(false);
+
 
 
   const totalMessages = selectedContacts?.length * repeat || 0;
   const [sentCount, setSentCount] = useState(0);
   const sock = useSockStore((state) => state.sock); // ✅ ini reactive
 
-  useEffect(() => {
-    if (!message || !repeat || !selectedContacts) {
-      navigate('/send-message');
-      return;
-    }
+ useEffect(() => {
+  if (!message || !repeat || !selectedContacts) {
+    navigate('/send-message');
+    return;
+  }
 
-    sendMessageMultipleTimes()
+  if (hasStartedRef.current) return;
+  hasStartedRef.current = true;
 
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      if (currentIndex < totalMessages) {
-        currentIndex++;
-        const progressPercentage = (currentIndex / totalMessages) * 100;
-        setProgress(progressPercentage);
-        setSentCount(currentIndex);
-        
-        // Calculate current contact and message count
-        const contactIndex = Math.floor((currentIndex - 1) / repeat);
-        const messageCount = ((currentIndex - 1) % repeat) + 1;
-        
-        const status = `Mengirim pesan ${messageCount}/${repeat} ke ${selectedContacts[contactIndex]?.name || 'unknown'}`;
-        setCurrentStatus(status);
-        setMessageLog(prev => [...prev, status]);
-      } else {
-        clearInterval(interval);
-        setCompleted(true);
-        setCurrentStatus('Semua pesan telah terkirim!');
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(interval)
-      console.log('Cleanup: Interval cleared and event listener removed');
-    };
-  }, [message, repeat, selectedContacts, totalMessages, navigate,sock]);
+  sendMessageMultipleTimes();
+}, [message, repeat, selectedContacts, totalMessages, navigate, sock]);
 
 
 const sendMessageMultipleTimes = async () => {
   try {
-    console.log("Selected Contacts:", selectedContacts); // More descriptive log
-    
+    console.log("Selected Contacts:", selectedContacts);
+    let currentIndex = 0;
+
     for (const contact of selectedContacts) {
-      console.log(`Processing contact: ${contact.number}`); // Log each contact
-      
       for (let i = 1; i <= repeat; i++) {
         await window.electron.ipcRenderer.invoke('send-message', {
           number: `${contact.number}@s.whatsapp.net`,
           message
         });
+
+        currentIndex++; // total pesan berhasil dikirim
+        const progressPercentage = (currentIndex / totalMessages) * 100;
+        const status = `Mengirim pesan ${i}/${repeat} ke ${contact.name}`;
+
+        setSentCount(currentIndex);
+        setProgress(progressPercentage);
+        setCurrentStatus(status);
+        setMessageLog(prev => [...prev, status]);
+
         console.log(`✅ Pesan ${i} terkirim ke ${contact.number}`);
         await new Promise((r) => setTimeout(r, 3000));
       }
     }
+
+    setCompleted(true);
+    setCurrentStatus('Semua pesan telah terkirim!');
   } catch (error) {
     console.error("Error in sendMessageMultipleTimes:", error);
   }
 };
+
 
 
   

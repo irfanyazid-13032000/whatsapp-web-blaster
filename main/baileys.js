@@ -5,6 +5,8 @@ import useSingleFileAuthState from './useSingleFileAuthState.js'
 import { Boom } from '@hapi/boom'
 // import waEvents  from '../src/lib/waEvents.js' // Import waEvents untuk event handling
 import useSockStore from '../src/lib/sockStore.js' // ⬅️ sesuaikan path
+// import { getAuthFilePath } from '../src/lib/path.js'
+
 
 
 
@@ -15,7 +17,7 @@ let sock = null;
 
 export async function start(io) {
   try {
-    const { state, saveState } = await useSingleFileAuthState('./auth_info.json')
+    const { state, saveState } = await useSingleFileAuthState('auth_info.json') // ⬅️ sesuaikan path sesuai kebutuhan
 
     sock = makeWASocket({
       auth: state,
@@ -52,6 +54,8 @@ export async function start(io) {
     console.error('❌ Baileys Error:', err)
   }
 }
+
+
 
 export function getSock() {
   return sock

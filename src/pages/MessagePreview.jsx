@@ -109,7 +109,7 @@ export default function MessagePreview() {
             >
               <td style={{ textAlign: 'center' }}>{i + 1}</td>
               <td style={{ textAlign: 'center' }}>{c.name}</td>
-              <td style={{ textAlign: 'center' }}>{c.number}</td>
+              <td style={{ textAlign: 'center' }}>*********</td>
               <td style={{ textAlign: 'center' }}>
                 <input
                   type="checkbox"
